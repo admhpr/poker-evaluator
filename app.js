@@ -9,9 +9,12 @@ var config = {
 hands = [ '8C TS KC 9H 4S', '7D 2S 5D 3S AC', '8C AD 8D AC 9C', '7C 5H 8D TD KS' ];
 
 suits = getData( hands, config.start_pos_suits );
-values = getData( hands, config.start_pos_values );
-chunkHands( suits );
-chunkHands( values );
+values = eNum( getData( hands, config.start_pos_values ) );
+chunkSuits = chunkHands( suits );
+chunkValues = chunkHands( values );
+
+console.log( chunkValues );
+
 
 
 function getData( hands, start_pos ) {
@@ -26,9 +29,35 @@ function getData( hands, start_pos ) {
 
 // looks at the suits in chunks that are the hand length
 function chunkHands( cards ) {
+  handValues = [];
   for ( i = 0; i < cards.length; i += config.hand_len ) {
     var card_hand = cards.slice( i, i + config.hand_len );
-    console.log( card_hand );
+    card_hand.sort( ( a, b ) => a - b );
+    handValues.push( card_hand );
     // TODO 8/5/17 add logic to determine suit create a separate function
   }
-} // looks at the suits and checks for a flush
+  return handValues;
+}
+
+// enumerates the face cards to make sorting easier //TODO 8/6/17 Ace may cause problems with straights
+function eNum( values ) {
+  r = /[AKQJT]/g;
+  num = [];
+  values.forEach( function ( value ) {
+    value = value.replace( r, function ( match ) {
+      if ( match === 'A' ) {
+        return 14;
+      } else if ( match === 'K' ) {
+        return 13;
+      } else if ( match === 'Q' ) {
+        return 12;
+      } else if ( match === 'J' ) {
+        return 11;
+      } else {
+        return 10;
+      }
+    } );
+    num.push( value );
+  } );
+  return num;
+}

@@ -15,8 +15,6 @@ chunkValues = chunkHands( values );
 
 console.log( chunkValues );
 
-
-
 function getData( hands, start_pos ) {
   var data = [];
   hands.forEach( function ( hand, pos ) {

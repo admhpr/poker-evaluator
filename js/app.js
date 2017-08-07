@@ -1,46 +1,60 @@
-// set data variables
-var config = {
-  hand_len: 5,
-  step: 3,
-  start_pos_values: 0,
-  start_pos_suits: 1
-};
-
-var ranks = {
-  0: "Five of a kind", // incase wild jokers are added
-  1: "Royal flush",
-  2: "Staight flush",
-  3: "Four of a kind",
-  4: "Full House",
-  5: "Flush",
-  6: "Straight",
-  7: "Three of a kind",
-  8: "Two pair", //TODO
-  9: "Pair",
-  10: "High card"
-};
-
+roundData = [];
 // data
-hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C', '7C 5H 8D TD KS', 'KS QS KC QC KH', 'KS KH KC 8S 7S', 'KS KC 7S 5C 4H', '2C 2H 2S 4C 6C' ];
+// hands = processData( allText );
+hands = [
+  [ '8C 8S 8H 8D TS', '8C TC KC 8C 4C' ],
+  [ '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C' ],
+  [ '7C 5H 8D TD KS', 'KS QS KC QC KH' ],
+  [ 'KS KH KC 8S 7S', 'KS KC 7S 5C 4H' ],
+  [ '2C 2H 2S 4C 6C', 'TH KH QH JH AH' ],
+  [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 6C' ],
+  [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 7C' ]
+];
+
+hands.forEach( function ( round ) {
+  getRoundData( round );
+} );
 
 // poker hand evaluator
-( function () {
-  /***************************************************
-                     Prepare Data
-  ****************************************************/
+console.log( roundData );
+
+roundData.forEach( function ( player ) {
+
+  if ( player[ 0 ].rank < player[ 1 ].rank ) {
+    console.log( "player 1 wins" );
+  } else if ( player[ 0 ].rank === player[ 1 ].rank ) {
+    if ( player[ 0 ].highCard < player[ 1 ].highCard ) {
+      console.log( "player 1 wins" );
+    } else if ( player[ 0 ].highCard === player[ 1 ].highCard ) {
+      console.log( "split pot" );
+    } else {
+      console.log( "player 1 loses" );
+    }
+  } else {
+    console.log( "player 1 loses" );
+  }
+} );
+
+
+/***************************************************
+                   Prepare Data
+****************************************************/
+
+function getRoundData( hands ) {
+
   suits = chunkHands( getData( hands, config.start_pos_suits ) );
   values = chunkHands( eNum( getData( hands, config.start_pos_values ) ) );
   handData = [];
-
-  console.log( values );
-  console.log( suits );
+  //
+  // console.log( values );
+  // console.log( suits );
 
 
   values.forEach( function ( hand, pos ) {
     getHand( suits[ pos ], values[ pos ] );
   } );
 
-  console.log( handData );
+  // console.log( handData );
 
   function getData( hands, start_pos ) {
     var data = [];
@@ -88,11 +102,14 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C'
   /***************************************************
                      Finding Rank
   ****************************************************/
+  round = [];
 
   function getHand( suits, values ) {
     var hand = {};
     isFlush( suits );
-    //isFlush
+    /***************************************************
+                       Flush
+    ****************************************************/
     function isFlush( arr ) {
       arr.forEach( function ( suit, pos ) {
         if ( pos === arr.length - 1 ) {} else {
@@ -101,7 +118,9 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C'
       } );
       hand.straight = isStraight( values );
     }
-    //isStraight
+    /***************************************************
+                      Straight
+    ****************************************************/
     function isStraight( arr ) {
       findMatches( values );
       match = arr.toString();
@@ -113,6 +132,9 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C'
         ( arr[ 2 ] + 1 == arr[ 3 ] ) &&
         ( arr[ 3 ] + 1 == arr[ 4 ] || ( arr.toString() === match ) ); //takes care of Ace wrap
     }
+    /***************************************************
+      Full House, Four O' Kind, Three O' kind, Two Pair
+    ****************************************************/
     //findMatches looks at the sorted emnumerated values and then determines how many matches there are
     function findMatches( arr ) {
       var matches = 0,
@@ -145,16 +167,46 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C'
       //  NOTE: the addition of one accounts for the switch when a new match is found on a two pair
       // last_matches != 3 works as the last int in the array does not get logged as a match.
       // the array must be sorted for this to work.
-      console.log( matches );
       hand.matches = matches;
       findHighCard( values );
     }
-
+    /***************************************************
+                       High Card
+    ****************************************************/
     function findHighCard( arr ) {
-      console.log( arr );
       hand.highCard = arr[ arr.length - 1 ];
+    }
+    getRank( hand );
+    /***************************************************
+                       Get Rank
+    ****************************************************/
+    function getRank( obj ) {
+      if ( obj.flush && obj.straight && obj.highCard === "14" ) {
+        obj.rank = 1;
+      } else if ( obj.flush && obj.straight ) {
+        obj.rank = 2;
+      } else if ( obj.matches === 4 && !obj.twoPair ) {
+        obj.rank = 3;
+      } else if ( obj.matches === 5 ) {
+        obj.rank = 4;
+      } else if ( obj.flush ) {
+        obj.rank = 5;
+      } else if ( obj.straight ) {
+        obj.rank = 6;
+      } else if ( obj.threeOfKind ) {
+        obj.rank = 7;
+      } else if ( obj.twoPair ) {
+        obj.rank = 8;
+      } else if ( obj.matches === 2 ) {
+        obj.rank = 9;
+      } else if ( obj.matches === 1 ) {
+        obj.rank = 10;
+      } else {
+        console.log( "not a hand, you might be playing bridge" );
+      }
+
     }
     handData.push( hand );
   }
-
-}( hands ) );
+  roundData.push( handData );
+}

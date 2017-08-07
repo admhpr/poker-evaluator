@@ -73,6 +73,6 @@ function readTextFile( file ) {
 
 
 readTextFile( "./hands.csv" );
-console.log( allText );
-hands = processData( allText );
-console.log( hands );
+// console.log( allText );
+// hands = processData( allText );
+// console.log( hands );

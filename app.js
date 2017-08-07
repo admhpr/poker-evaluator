@@ -21,7 +21,7 @@ var ranks = {
 };
 
 // data
-hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '7D 2S 5D 3S AC', '8C AD 8D AC 9C', '7C 5H 8D TD KS' ];
+hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C', '7C 5H 8D TD KS', 'KS QS KC QC KH', 'KS KH KC 8S 7S', 'KS KC 7S 5C 4H', '2C 2H 2S 4C 6C' ];
 
 // poker hand evaluator
 ( function () {
@@ -34,7 +34,7 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '7D 2S 5D 3S AC', '8C AD 8D AC 9C'
 
   console.log( values );
   console.log( suits );
-  console.log( values.length );
+
 
   values.forEach( function ( hand, pos ) {
     getHand( suits[ pos ], values[ pos ] );
@@ -99,15 +99,19 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '7D 2S 5D 3S AC', '8C AD 8D AC 9C'
           arr[ pos ] === arr[ pos + 1 ] ? hand.flush = true : hand.flush = false;
         }
       } );
-      isStraight( values );
+      hand.straight = isStraight( values );
     }
     //isStraight
     function isStraight( arr ) {
-      hand.straight = ( arr[ 0 ] + 1 == arr[ 1 ] || ( arr[ 0 ] == 1 && arr[ 4 ] == 13 ) ) &&
+      findMatches( values );
+      match = arr.toString();
+      var arr = arr.map( function ( x ) {
+        return parseInt( x, 10 );
+      } );
+      return ( arr[ 0 ] + 1 == arr[ 1 ] ) &&
         ( arr[ 1 ] + 1 == arr[ 2 ] ) &&
         ( arr[ 2 ] + 1 == arr[ 3 ] ) &&
-        ( arr[ 3 ] + 1 == arr[ 4 ] );
-      findMatches( values );
+        ( arr[ 3 ] + 1 == arr[ 4 ] || ( arr.toString() === match ) ); //takes care of Ace wrap
     }
     //findMatches looks at the sorted emnumerated values and then determines how many matches there are
     function findMatches( arr ) {
@@ -131,17 +135,23 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '7D 2S 5D 3S AC', '8C AD 8D AC 9C'
           match = arr[ i ], diffHand = true;
         }
       }
-      if ( matches === 4 && ( first_matches != 4 && last_matches != 3 ) ) {
+      hand.twoPair = true;
+      first_matches === 3 || last_matches == 2 && matches != 4 ? hand.threeOfKind = true : hand.threeOfKind = false;
+      if ( ( matches === 3 || matches === 4 ) && ( first_matches != 4 && last_matches != 3 ) ) {
         matches += 1;
+      } else {
+        hand.twoPair = false;
       } //TODO find two pair; 08/6/17
       //  NOTE: the addition of one accounts for the switch when a new match is found on a two pair
       // last_matches != 3 works as the last int in the array does not get logged as a match.
       // the array must be sorted for this to work.
+      console.log( matches );
       hand.matches = matches;
       findHighCard( values );
     }
 
     function findHighCard( arr ) {
+      console.log( arr );
       hand.highCard = arr[ arr.length - 1 ];
     }
     handData.push( hand );

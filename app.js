@@ -133,8 +133,7 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '7D 2S 5D 3S AC', '8C AD 8D AC 9C'
       }
       if ( matches === 4 && ( first_matches != 4 && last_matches != 3 ) ) {
         matches += 1;
-      }
-      hand.diffHand = diffHand;
+      } //TODO find two pair; 08/6/17
       //  NOTE: the addition of one accounts for the switch when a new match is found on a two pair
       // last_matches != 3 works as the last int in the array does not get logged as a match.
       // the array must be sorted for this to work.

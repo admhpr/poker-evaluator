@@ -135,7 +135,7 @@ hands = [ '8C 8S 8H 8C TS', '8C TC KC 8C 4C', '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C'
           match = arr[ i ], diffHand = true;
         }
       }
-      hand.twoPair = true;
+      hand.twoPair = true; // sets default to true
       first_matches === 3 || last_matches == 2 && matches != 4 ? hand.threeOfKind = true : hand.threeOfKind = false;
       if ( ( matches === 3 || matches === 4 ) && ( first_matches != 4 && last_matches != 3 ) ) {
         matches += 1;

@@ -7,9 +7,40 @@
 </head>
 
 <body>
+  <html>
 
-  <script src="app.js"></script>
-  <!-- <script src="test.js"></script> -->
-</body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>HTML5 File API</title>
+  </head>
 
-</html>
+  <body>
+    <div>
+      <form class="form-horizontal well">
+        <legend>
+          <h3>
+          <div id="title">Pokerhand evaluator</div>
+        </h3>
+        </legend>
+        <fieldset>
+          <label for="csvFileInput"> <strong>CSV File:</strong>
+          </label>
+          <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv">
+    </div>
+    </fieldset>
+    </form>
+    <div id="output">
+    </div>
+    </div>
+    <br>
+    <br>
+    <footer>
+      <center>
+      </center>
+    </footer>
+
+    <!-- <script src="app.js"></script> -->
+    <script src="client.js"></script>
+  </body>
+
+  </html>

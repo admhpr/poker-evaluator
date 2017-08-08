@@ -1,4 +1,4 @@
-## Heads up poker-evaluator <img src="img/rsz_aces.png" alt="aces" style="width: 100px"/>
+## Heads up poker-evaluator <img src="rsz_aces.png" alt="aces" style="width: 100px"/>
 
 This program will load a csv files which contains hand data from a head up game in the following format:
 

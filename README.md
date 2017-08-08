@@ -38,6 +38,8 @@ That hand data is then evaluated by the ```outputWinners``` function which deter
 
 > Note : ```outputWinners``` is a little large and ugly as edge cases are also considered i.e when a their are two straights or both hands have pairs.
 
-The initial data is also output into a table by the ```drawOutput``` function. The winners of that round are then displayed to right of the table.
+The initial data is also output into a table by the ```drawOutput``` function. The winners of that round are then displayed to right of the table like so:
+
+[!screenshot of program](screenshot.png)
 
 > licensed cc-by-sa [Adam Harpur](https://www.adamharpur.com) 2017

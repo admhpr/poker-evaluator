@@ -205,7 +205,7 @@ function getRoundData( hands ) {
         ( arr[ 3 ] + 1 == arr[ 4 ] || ( arr.toString() === match ) ); //takes care of Ace wrap
     }
     /***************************************************
-      Full House, Four O' Kind, Three O' kind, Two Pair
+      Full House, Four O' Kind, Three O' kind, Two Pair, Pair
     ****************************************************/
     //findMatches looks at the sorted emnumerated values and then determines how many matches there are
     function findMatches( arr ) {

@@ -46,7 +46,40 @@ function errorHandler( evt ) {
   }
 }
 
+function prepDisplay( arr ) {
+  r = /[CHSD]/g;
+  // debugger
+  var lines = [],
+    round = [];
+  var counter = 0;
+  arr.forEach( function ( round, pos ) {
+    round.forEach( function ( value, pos ) {
+
+      value = value.replace( r, function ( match ) {
+        if ( match === 'C' ) {
+          return '♣';
+        } else if ( match === 'H' ) {
+          return '♡';
+        } else if ( match === 'S' ) {
+          return '♠';
+        } else {
+          return '♢';
+        }
+
+      } );
+      round.push( value );
+    } );
+    lines.push( round );
+  } );
+  for ( i = 0; i < lines.length; i++ ) {
+    lines[ i ].shift();
+    lines[ i ].shift();
+  }
+  return lines;
+}
+
 function drawOutput( lines ) {
+  console.log( lines );
   //Clear previous data
   document.getElementById( "output" ).innerHTML = "";
   var table = document.createElement( "table" );
@@ -67,7 +100,7 @@ function init( hands ) {
   hands.forEach( function ( round ) {
     getRoundData( round );
   } );
-  drawOutput( hands );
+  drawOutput( prepDisplay( hands ) );
   console.log( roundData )
   outputWinners( roundData );
 }

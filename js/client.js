@@ -72,6 +72,26 @@ function readTextFile( file ) {
 }
 
 
+function prepDisplay( lines ) {
+  r = /[CHSD]/g;
+  lines = [];
+  values.forEach( function ( value ) {
+    value = value.replace( r, function ( match ) {
+      if ( match === 'C' ) {
+        return '♣';
+      } else if ( match === 'H' ) {
+        return '♥';
+      } else if ( match === 'S' ) {
+        return '♠';
+      } else {
+        return '♦';
+      }
+    } );
+    lines.push( value );
+  } );
+  return lines;
+}
+
 
 //readTextFile( "./hands.csv" );
 // console.log( allText );

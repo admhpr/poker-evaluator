@@ -1,16 +1,22 @@
 roundData = [];
 // data
 // hands = processData( allText );
+// hands = [
+//   [ '8C 8S 8H 8D TS', '8C TC KC 8C 4C' ],
+//   [ '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C' ],
+//   [ '7C 5H 8D TD KS', 'KS QS KC QC KH' ],
+//   [ 'KS KH KC 8S 7S', 'KS KC 7S 5C 4H' ],
+//   [ '2C 2H 2S 4C 6C', 'TH KH QH JH AH' ],
+//   [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 6C' ],
+//   [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 7C' ]
+// ];
+
 hands = [
-  [ '8C 8S 8H 8D TS', '8C TC KC 8C 4C' ],
-  [ '2D 3S 4D 5S AC', '2C 2D 8D 4C 4C' ],
-  [ '7C 5H 8D TD KS', 'KS QS KC QC KH' ],
-  [ 'KS KH KC 8S 7S', 'KS KC 7S 5C 4H' ],
-  [ '2C 2H 2S 4C 6C', 'TH KH QH JH AH' ],
-  [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 6C' ],
+  [ '3D 3S 4D 5S AC', '3C 2D 8D 4C 4C' ],
   [ '2C 2H 2S 4C 6C', '2C 2H 2S 4C 7C' ]
 ];
 
+drawOutput( hands );
 hands.forEach( function ( round ) {
   getRoundData( round );
 } );
@@ -18,20 +24,27 @@ hands.forEach( function ( round ) {
 // poker hand evaluator
 console.log( roundData );
 
+function displayResult( text ) {
+  var ul = document.getElementById( 'resultList' );
+  var li = document.createElement( 'li' );
+  li.innerHTML = text;
+  ul.appendChild( li );
+}
+
 roundData.forEach( function ( player ) {
 
   if ( player[ 0 ].rank < player[ 1 ].rank ) {
-    console.log( "player 1 wins" );
+    displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}` );
   } else if ( player[ 0 ].rank === player[ 1 ].rank ) {
-    if ( player[ 0 ].highCard < player[ 1 ].highCard ) {
-      console.log( "player 1 wins" );
+    if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
+      displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]} and high card of ${player[0].highCard}` );
     } else if ( player[ 0 ].highCard === player[ 1 ].highCard ) {
-      console.log( "split pot" );
+      displayResult( "Split pot" );
     } else {
-      console.log( "player 1 loses" );
+      displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]} and high card of ${player[1].highCard}` );
     }
   } else {
-    console.log( "player 1 loses" );
+    displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}` );
   }
 } );
 
@@ -142,11 +155,12 @@ function getRoundData( hands ) {
         first_matches = 0,
         diffHand = false,
         match = arr[ 0 ];
-
+      hand.pairMatches = [];
       arr = arr.sort( ( a, b ) => a - b ); // this is unnecessary given the data but makes the code reuseable
 
       for ( i = 0; i < arr.length; i++ ) {
         if ( arr[ i ] === match ) {
+          hand.pairMatches.push( arr[ i ] );
           matches += 1;
           if ( diffHand ) {
             last_matches += 1;

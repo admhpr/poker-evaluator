@@ -47,6 +47,7 @@ function drawOutput( lines ) {
   var table = document.createElement( "table" );
   for ( var i = 0; i < lines.length; i++ ) {
     var row = table.insertRow( -1 );
+    row.innerHTML = `Round ${i + 1}`;
     for ( var j = 0; j < lines[ i ].length; j++ ) {
       var firstNameCell = row.insertCell( -1 );
       firstNameCell.appendChild( document.createTextNode( lines[ i ][ j ] ) );

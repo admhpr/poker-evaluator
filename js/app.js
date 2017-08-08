@@ -1,6 +1,9 @@
 /***************************************************
               See README.md for details
 ****************************************************/
+var hands = [];
+var roundData = [];
+
 /***************************************************
                    Main Function Calls
 ****************************************************/
@@ -12,9 +15,6 @@ function init( hands ) {
   drawOutput( prepDisplay( hands ) );
   outputWinners( roundData );
 }
-var hands = [],
-  roundData = [];
-
 /***************************************************
                    Load CSV file
 ****************************************************/
@@ -48,6 +48,7 @@ function processData( csv ) {
   while ( allTextLines.length ) {
     hands.push( allTextLines.shift().split( ',' ) );
   }
+  hands.splice( -1, 1 );
   init( hands ); // calls main functions
 }
 
@@ -76,7 +77,6 @@ function prepDisplay( arr ) {
         } else {
           return '♢';
         }
-
       } );
       round.push( value );
     } );
@@ -91,7 +91,9 @@ function prepDisplay( arr ) {
 
 function drawOutput( lines ) {
   //Clear previous data
-  document.getElementById( "output" ).innerHTML = "";
+  var output = document.getElementById( "output" );
+  output.innerHTML = "";
+  output.innerHTML = "<span id='player1'>Player 1</span><span id='player2'>Player 2<span>";
   var table = document.createElement( "table" );
   for ( var i = 0; i < lines.length; i++ ) {
     var row = table.insertRow( -1 );
@@ -108,39 +110,57 @@ function drawOutput( lines ) {
                    Output Winners
 ****************************************************/
 function outputWinners( roundData ) {
+  var player1 = 0;
+  var player2 = 0;
+  var split_pot = 0;
   roundData.forEach( function ( player, pos ) {
     if ( player[ 0 ].rank < player[ 1 ].rank ) {
+      player1 += 1;
       displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}`, pos );
     } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank != 2 || player[ 0 ].rank != 5 || player[ 0 ].rank != 6 ) && ( player[ 1 ].rank != 2 || player[ 1 ].rank != 5 || player[ 1 ].rank != 6 ) ) {
       // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
       if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] > player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // looks for higher match
+        player1 += 1;
         displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high match of ${player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] }`, pos );
       } else if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] === player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // pairs are equal look at high card
         if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
+          player1 += 1;
           displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
         } else if ( ( player[ 0 ].highCard === player[ 1 ].highCard ) && ( player[ 0 ].rank === player[ 1 ].rank ) ) {
+          split_pot += 1;
           displayResult( "Split pot", pos );
         } else {
+          player2 += 1;
           displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high card of ${player[1].highCard}`, pos );
         }
       } else {
+        player2 += 1;
         displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high match of ${player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] }`, pos );
       }
     } else if ( player[ 0 ].rank === player[ 1 ].rank && ( player[ 0 ] === 2 || player[ 0 ] === 5 || player[ 0 ] === 6 ) ) {
       // looking for hands that are the same and non matches i.e flushes, straights and straight flushes
       if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
+        player1 += 1;
         displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
       } else if ( player[ 0 ].highCard === player[ 1 ].highCard ) {
+        split_pot += 1;
         displayResult( "Split pot", pos );
       } else {
+        player2 += 1;
         displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]} and high card of ${player[1].highCard}`, pos );
       }
     } else {
+      player2 += 1;
       displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}`, pos );
     }
+    document.getElementById( "player-1" ).innerHTML = "Player 1 wins: " + player1 + "<br>";
+    document.getElementById( "player-2" ).innerHTML = "Player 2 wins: " + player2 + "<br>";
+    document.getElementById( "split-pot" ).innerHTML = "Split pots: " + split_pot + "<br>";
   } );
+
+
 }
 
 function displayResult( text, pos ) {

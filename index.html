@@ -23,12 +23,20 @@
           <div id="title">Pokerhand evaluator</div>
         </h3>
           <img src="aces.png" alt="Aces">
-          <!-- <div id="info">
-            <p>Hello</p>
-          </div> -->
+          <div id="info">
+            <p class="info">This program will load a csv files which contains hand data from a heads up game in the following format:
+              <br><code>AC KC 8D QD 4S</code>.
+              <br><br> More info on this program and how it works can be found <a href="https://github.com/harps116/poker-evaluator/blob/master/README.md">here</a>
+              <br><br> Along with the source code <a href="https://github.com/harps116/poker-evaluator">here</a>, sample data to be loaded by the program can be found <a href="https://github.com/harps116/poker-evaluator/tree/master/csv">here</a>.
+              <br><br>
+              <span id="player-1"></span>
+              <span id="player-2"></span>
+              <span id="split-pot"></span>
+            </p>
+          </div>
         </legend>
         <fieldset>
-          <label for="csvFileInput"> <strong>Select a CSV File:</strong>
+          <label for="csvFileInput"> <strong>Select a CSV File to analyse:</strong>
           </label>
           <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv">
     </div>
@@ -36,25 +44,22 @@
     </form>
     <div id="results" class="row">
       <div id="output" class="column">
-
       </div>
       <ul id="resultList" class="column">
-
       </ul>
     </div>
     </div>
-
     <br>
     <br>
     <footer>
       <center>
+        <blockquote>
+          licensed cc-by-sa by <a href="https://www.adamharpur.com">Adam Harpur</a> &#9838; &#10023;
+        </blockquote>
       </center>
     </footer>
-
     <script src="./js/config.js"></script>
-    <!-- <script src="./js/client.js"></script> -->
     <script src="./js/app.js"></script>
-
   </body>
 
   </html>

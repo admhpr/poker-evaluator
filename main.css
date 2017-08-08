@@ -34,6 +34,22 @@ p {
   margin-top: 0%;
 }
 
+h3, #title {
+  width: 50%
+}
+
+#player1, #player2 {
+  padding: 5px;
+  background-color: #F4F4F4;
+  margin-left: 23%;
+  border: 2px solid #333;
+  color: #10BF64;
+}
+
+#round {
+  color: #10BF64;
+}
+
 
 /* 100% Width Columns on Small Screens */
 
@@ -46,7 +62,7 @@ p {
   }
 }
 
-li, form {
+li, form, footer {
   padding: 1px;
   list-style: none;
   border: 1px solid black;
@@ -73,11 +89,20 @@ table {
   background-color: #F4F4F4;
 }
 
-#round, {
-  color: red;
+code {
+  background-color: #F4F4F4;
+  color: #333;
+  padding: 1px;
 }
 
-#info {
-  float: right;
-  width: 50%;
+.info {
+  top: 0px;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 2%;
+  font-family: 'Play', sans-serif;
+}
+
+a {
+  color: #10BF64;
 }

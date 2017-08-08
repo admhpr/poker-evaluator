@@ -1,6 +1,17 @@
 /***************************************************
               See README.md for details
 ****************************************************/
+/***************************************************
+                   Main Function Calls
+****************************************************/
+function init( hands ) {
+  console.log( hands );
+  hands.forEach( function ( round ) {
+    getRoundData( round );
+  } );
+  drawOutput( prepDisplay( hands ) );
+  outputWinners( roundData );
+}
 var hands = [],
   roundData = [];
 
@@ -79,7 +90,6 @@ function prepDisplay( arr ) {
 }
 
 function drawOutput( lines ) {
-  console.log( lines );
   //Clear previous data
   document.getElementById( "output" ).innerHTML = "";
   var table = document.createElement( "table" );
@@ -93,17 +103,7 @@ function drawOutput( lines ) {
   }
   document.getElementById( "output" ).appendChild( table );
 }
-/***************************************************
-                   Main Function Calls
-****************************************************/
-function init( hands ) {
-  hands.forEach( function ( round ) {
-    getRoundData( round );
-  } );
-  drawOutput( prepDisplay( hands ) );
-  console.log( roundData )
-  outputWinners( roundData );
-}
+
 /***************************************************
                    Output Winners
 ****************************************************/
@@ -230,7 +230,6 @@ function getRoundData( hands ) {
     function isStraight( arr ) {
       findMatches( values );
       match = arr.toString();
-      console.log( match );
       var arr = arr.map( function ( x ) {
         return parseInt( x, 10 );
       } );

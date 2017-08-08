@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Play');
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 980px;
+  margin: 1em auto;
+  font-size: 20px;
+  line-height: 1.5;
+  background-image: url(/img/gambling.jpg);
+  font-family: 'Play', sans-serif;
+}
+
+p {
+  text-align: center;
+  background-color: #333333;
+  color: #fff;
+  padding: 0.1%;
+  border-radius: 3px;
+  font-family: OpenSans-SemiBold;
+  margin-bottom: 0%;
+  margin-top: 0.5%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 .5em;
+}
+
+.column {
+  flex: 1;
+  margin-top: 0%;
+}
+
+
+/* 100% Width Columns on Small Screens */
+
+
+/* ^ selects every column*/
+
+@media (max-width: 500px) {
+  [class^="column"] {
+    flex: 0 0 100%;
+  }
+}
+
+li, form {
+  padding: 3px;
+  list-style: none;
+  border: 1px solid black;
+  background-color: #F4F4F4;
+  font-size: 17.85px;
+}
+
+form {
+  padding: 20px;
+  border-radius: 5px;
+}
+
+td {
+  border: 1px solid black;
+  padding: 17px;
+  height: 60px;
+  margin: 1%;
+}
+
+table {
+  border: 1px solid black;
+  width: 100%;
+  background-color: #F4F4F4;
+}
+
+#round {
+  color: red;
+}
+
+#info {
+  float: right;
+  width: 50%;
+}

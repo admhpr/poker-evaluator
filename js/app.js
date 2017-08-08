@@ -277,7 +277,7 @@ function getRoundData( hands ) {
       } else if ( obj.matches === 1 ) {
         obj.rank = 10;
       } else {
-        console.log( "not a hand, you might be playing bridge" );
+        alert( "not a hand, you might be playing bridge" );
       }
 
     }

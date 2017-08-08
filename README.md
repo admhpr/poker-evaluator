@@ -2,7 +2,7 @@
 
 This program will load a csv files which contains hand data from a head up game in the following format:
 
-```AC KC 8D QD 5S```
+```AC KC 8D QD 4S```
 
 * A = Ace || 14
 * K = King || 13
@@ -19,7 +19,7 @@ This program will load a csv files which contains hand data from a head up game 
 
 The above hand will be rendered as:
 
-```A♣ K♣ 8♢ Q♢ 5♠```
+```A♣ K♣ 8♢ Q♢ 4♠```
 
 The program first loads the CSV file turns it into text and then creates an array of arrays the inner arrays have two values representing the hands of a round, it looks something like this:
 

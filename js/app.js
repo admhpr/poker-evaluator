@@ -52,7 +52,7 @@ function drawOutput( lines ) {
   var table = document.createElement( "table" );
   for ( var i = 0; i < lines.length; i++ ) {
     var row = table.insertRow( -1 );
-    row.innerHTML = `Round ${i + 1}`;
+    row.innerHTML = "<span id='round'>" + `Round ${i + 1}` + "</span>";
     for ( var j = 0; j < lines[ i ].length; j++ ) {
       var firstNameCell = row.insertCell( -1 );
       firstNameCell.appendChild( document.createTextNode( lines[ i ][ j ] ) );
@@ -68,6 +68,7 @@ function init( hands ) {
     getRoundData( round );
   } );
   drawOutput( hands );
+  console.log( roundData )
   outputWinners( roundData );
 }
 /***************************************************
@@ -77,27 +78,27 @@ function outputWinners( roundData ) {
   roundData.forEach( function ( player, pos ) {
     if ( player[ 0 ].rank < player[ 1 ].rank ) {
       displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}`, pos );
-    } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ] != 2 || player[ 0 ] != 5 || player[ 0 ] != 6 ) ) {
+    } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank != 2 || player[ 0 ].rank != 5 || player[ 0 ].rank != 6 ) && ( player[ 1 ].rank != 2 || player[ 1 ].rank != 5 || player[ 1 ].rank != 6 ) ) {
       // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
       if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] > player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // looks for higher match
-        displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]} and high match of ${player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] }`, pos );
+        displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high match of ${player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] }`, pos );
       } else if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] === player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // pairs are equal look at high card
         if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
-          displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]} and high card of ${player[0].highCard}`, pos );
-        } else if ( player[ 0 ].highCard === player[ 1 ].highCard && player[ 0 ].rank === player[ 1 ].rank ) {
-          displayResult( "Split pot bug", pos );
+          displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
+        } else if ( ( player[ 0 ].highCard === player[ 1 ].highCard ) && ( player[ 0 ].rank === player[ 1 ].rank ) ) {
+          displayResult( "Split pot", pos );
         } else {
-          displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]} and high card of ${player[1].highCard}`, pos );
+          displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high card of ${player[1].highCard}`, pos );
         }
       } else {
-        displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]} and high match of ${player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] }`, pos );
+        displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high match of ${player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] }`, pos );
       }
     } else if ( player[ 0 ].rank === player[ 1 ].rank && ( player[ 0 ] === 2 || player[ 0 ] === 5 || player[ 0 ] === 6 ) ) {
       // looking for hands that are the same and non matches i.e flushes, straights and straight flushes
       if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
-        displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]} and high card of ${player[0].highCard}`, pos );
+        displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
       } else if ( player[ 0 ].highCard === player[ 1 ].highCard ) {
         displayResult( "Split pot", pos );
       } else {
@@ -184,7 +185,7 @@ function getRoundData( hands ) {
     ****************************************************/
     function isFlush( arr ) {
       arr.forEach( function ( suit, pos ) {
-        if ( pos === arr.length - 1 ) {} else {
+        if ( pos === arr.length - 1 ) {
           arr[ pos ] === arr[ pos + 1 ] ? hand.flush = true : hand.flush = false;
         }
       } );
@@ -196,13 +197,14 @@ function getRoundData( hands ) {
     function isStraight( arr ) {
       findMatches( values );
       match = arr.toString();
+      console.log( match );
       var arr = arr.map( function ( x ) {
         return parseInt( x, 10 );
       } );
       return ( arr[ 0 ] + 1 == arr[ 1 ] ) &&
         ( arr[ 1 ] + 1 == arr[ 2 ] ) &&
         ( arr[ 2 ] + 1 == arr[ 3 ] ) &&
-        ( arr[ 3 ] + 1 == arr[ 4 ] || ( arr.toString() === match ) ); //takes care of Ace wrap
+        ( arr[ 3 ] + 1 == arr[ 4 ] || ( arr[ arr.length - 1 ].toString() === "14" ) ); //takes care of Ace wrap
     }
     /***************************************************
       Full House, Four O' Kind, Three O' kind, Two Pair, Pair
@@ -288,4 +290,5 @@ function getRoundData( hands ) {
    Adds Hands in sets of Two to Represent a Round of Heads Up
   ************************************************************/
   roundData.push( handData );
+
 }

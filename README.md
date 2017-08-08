@@ -40,6 +40,6 @@ That hand data is then evaluated by the ```outputWinners``` function which deter
 
 The initial data is also output into a table by the ```drawOutput``` function. The winners of that round are then displayed to right of the table like so:
 
-[!screenshot of program](poker-eval.png)
+![screenshot of program](poker-eval.png)
 
 > licensed cc-by-sa [Adam Harpur](https://www.adamharpur.com) 2017

@@ -105,7 +105,4 @@ a {
   [class^="column"] {
     flex: 0 0 100%;
   }
-  #csvFileInput {
-    padding: 40px;
-  }
 }

@@ -245,7 +245,7 @@ function getRoundData( hands ) {
       hand.flush = false;
       arr.forEach( function ( suit, pos ) {
         if ( pos === arr.length - 1 ) {} else {
-          arr[ pos ] === arr[ pos + 1 ] ? hand.flush = true : hand.flush = false;
+          arr[ pos ] === arr[ pos + 1 ] && arr[ pos ] === arr[ 0 ] ? hand.flush = true : hand.flush = false;
         }
       } );
 

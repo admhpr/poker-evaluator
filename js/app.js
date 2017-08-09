@@ -17,8 +17,8 @@ function init( hands ) {
   hands.forEach( function ( round ) {
     getRoundData( round );
   } );
+  drawOutput( prepDisplay( hands ) );
   outputWinners( roundData );
-  drawOutput( hands );
 
 }
 /***************************************************

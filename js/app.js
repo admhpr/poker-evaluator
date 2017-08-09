@@ -1,3 +1,9 @@
+/**
+ * @author Adam Harpur
+ * @date   08/2017
+ * @license cc-by-sa
+ * @contact adam@adamharpur.com
+ */
 /***************************************************
               See README.md for details
 ****************************************************/
@@ -19,9 +25,9 @@ function init( hands ) {
                    Load CSV file
 ****************************************************/
 function handleFiles( files ) {
-  // Check for the various File API support.
+  // Check for File API support.
   if ( window.FileReader ) {
-    // FileReader are supported.
+    // FileReader is supported.
     getAsText( files[ 0 ] );
   } else {
     alert( 'FileReader is not supported in this browser.' );
@@ -59,8 +65,7 @@ function errorHandler( evt ) {
 }
 
 function prepDisplay( arr ) {
-  r = /[CHSD]/g;
-  // debugger
+  r = /[CHSD]/g; // replace letters with symbols
   var lines = [],
     round = [];
   var counter = 0;

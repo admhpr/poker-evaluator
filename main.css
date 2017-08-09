@@ -95,6 +95,10 @@ a {
   color: #10BF64;
 }
 
+#resultList {
+  margin-top: 32px;
+}
+
 
 /* 100% Width Columns on Small Screens */
 

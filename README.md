@@ -1,6 +1,6 @@
 ## Heads up poker-evaluator <img src="rsz_aces.png" alt="aces" style="width: 100px"/>
 
-This program will load a csv files which contains hand data from a head up game in the following format:
+This program will load a csv file which contains hand data from a head up game in the following format:
 
 ```AC KC 8D QD 4S```
 

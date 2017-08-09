@@ -18,9 +18,9 @@ p {
   color: #fff;
   padding: 0.1%;
   border-radius: 3px;
-  font-family: OpenSans-SemiBold;
+  font-family: 'Play', sans-serif;
   margin-bottom: 0%;
-  margin-top: 0.5%;
+  margin-top: 0.495%;
 }
 
 .row {
@@ -65,10 +65,12 @@ form {
 
 td {
   border: 1px solid black;
-  padding: 10px;
-  height: 60px;
-  margin: 1%;
+  padding: 8px;
+  height: 61.95px;
+  margin: 10px;
   font-size: 17px;
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 table {
@@ -96,7 +98,7 @@ a {
 }
 
 #resultList {
-  margin-top: 32px;
+  margin-top: 31px;
 }
 
 

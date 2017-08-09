@@ -50,18 +50,6 @@ h3, #title {
   color: #10BF64;
 }
 
-
-/* 100% Width Columns on Small Screens */
-
-
-/* ^ selects every column*/
-
-@media (max-width: 500px) {
-  [class^="column"] {
-    flex: 0 0 100%;
-  }
-}
-
 li, form, footer {
   padding: 1px;
   list-style: none;
@@ -105,4 +93,19 @@ code {
 
 a {
   color: #10BF64;
+}
+
+
+/* 100% Width Columns on Small Screens */
+
+
+/* ^ selects every column*/
+
+@media (max-width: 500px) {
+  [class^="column"] {
+    flex: 0 0 100%;
+  }
+  #csvFileInput {
+    padding: 40px;
+  }
 }

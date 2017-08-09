@@ -14,12 +14,12 @@ var roundData = [];
                    Main Function Calls
 ****************************************************/
 function init( hands ) {
-  console.log( hands );
   hands.forEach( function ( round ) {
     getRoundData( round );
   } );
-  drawOutput( prepDisplay( hands ) );
   outputWinners( roundData );
+  drawOutput( hands );
+
 }
 /***************************************************
                    Load CSV file
@@ -242,11 +242,13 @@ function getRoundData( hands ) {
                        Flush
     ****************************************************/
     function isFlush( arr ) {
+      hand.flush = false;
       arr.forEach( function ( suit, pos ) {
-        if ( pos === arr.length - 1 ) {
+        if ( pos === arr.length - 1 ) {} else {
           arr[ pos ] === arr[ pos + 1 ] ? hand.flush = true : hand.flush = false;
         }
       } );
+
       hand.straight = isStraight( values );
     }
     /***************************************************

@@ -186,7 +186,7 @@ function clearData() {
   var player1 = document.getElementById( 'player-1' );
   var player2 = document.getElementById( 'player-2' );
   var split_pot = document.getElementById( 'split-pot' );
-
+  roundData = [];
   var elements = [ ul, output, player1, player2, split_pot ];
 
   elements.forEach( function ( el ) {

@@ -14,6 +14,7 @@ var roundData = [];
                    Main Function Calls
 ****************************************************/
 function init( hands ) {
+  clearData();
   hands.forEach( function ( round ) {
     getRoundData( round );
   } );
@@ -177,6 +178,20 @@ function displayResult( text, pos ) {
   li.innerHTML = text;
   ul.appendChild( p );
   ul.appendChild( li );
+}
+
+function clearData() {
+  var ul = document.getElementById( 'resultList' );
+  var output = document.getElementById( 'output' );
+  var player1 = document.getElementById( 'player-1' );
+  var player2 = document.getElementById( 'player-2' );
+  var split_pot = document.getElementById( 'split-pot' );
+
+  var elements = [ ul, output, player1, player2, split_pot ];
+
+  elements.forEach( function ( el ) {
+    el.innerHTML = "";
+  } );
 }
 /***************************************************
                    Prepare Data

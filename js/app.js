@@ -2,7 +2,7 @@
  * @author Adam Harpur
  * @date   08/2017
  * @license cc-by-sa
- * @contact adam@adamharpur.com
+ * @contact adam@adamharpur.comz
  */
 /***************************************************
               See README.md for details

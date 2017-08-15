@@ -125,13 +125,14 @@ function outputWinners( roundData ) {
       displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}`, pos );
     } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank != 2 || player[ 0 ].rank != 5 || player[ 0 ].rank != 6 ) && ( player[ 1 ].rank != 2 || player[ 1 ].rank != 5 || player[ 1 ].rank != 6 ) ) {
       // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
-      if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] > player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
+      if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] < player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // looks for higher match
         player1 += 1;
         displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high match of ${player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] }`, pos );
       } else if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] === player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // pairs are equal look at high card
-        if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
+        if ( player[ 0 ].highCard < player[ 1 ].highCard ) {
+          console.log( player[ 0 ] )
           player1 += 1;
           displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
         } else if ( ( player[ 0 ].highCard === player[ 1 ].highCard ) && ( player[ 0 ].rank === player[ 1 ].rank ) ) {
@@ -364,6 +365,5 @@ function getRoundData( hands ) {
    Adds Hands in sets of Two to Represent a Round of Heads Up
   ************************************************************/
   roundData.push( handData );
-
 }
 /***Fin***/

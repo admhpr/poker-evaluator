@@ -123,11 +123,11 @@ function outputWinners( roundData ) {
     if ( player[ 0 ].rank < player[ 1 ].rank ) {
       player1 += 1;
       displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}`, pos );
-    } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank != 2 ||
-        player[ 0 ].rank != 6 ||
-        player[ 0 ].rank != 6 ) && ( player[ 1 ].rank != 2 ||
-        player[ 1 ].rank != 5 ||
-        player[ 1 ].rank != 6 ) ) {
+    } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank !== 2 ||
+        player[ 0 ].rank !== 6 ||
+        player[ 0 ].rank !== 6 ) && ( player[ 1 ].rank !== 2 ||
+        player[ 1 ].rank !== 5 ||
+        player[ 1 ].rank !== 6 ) ) {
       // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
       if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] > player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // looks for higher match

@@ -129,7 +129,7 @@ function outputWinners( roundData ) {
         player[ 1 ].rank !== 5 ||
         player[ 1 ].rank !== 6 ) ) {
       // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
-      if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] > player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
+      if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] < player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // looks for higher match
         player1 += 1;
         displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high match of ${player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] }`, pos );

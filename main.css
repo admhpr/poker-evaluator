@@ -97,6 +97,19 @@ a {
   color: #10BF64;
 }
 
+#download {
+  background-color: #10BF64;
+  color: #F4F4F4;
+  font-weight: bold;
+  padding: 1%;
+}
+
+#download:hover {
+  margin-top: 1px;
+  margin-left: 1px;
+  background-color: #32e0a0;
+}
+
 #resultList {
   margin-top: 31px;
 }

@@ -136,7 +136,6 @@ function outputWinners( roundData ) {
       } else if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] === player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
         // pairs are equal look at high card
         if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
-          console.log( player[ 0 ] )
           player1 += 1;
           displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
         } else if ( ( player[ 0 ].highCard === player[ 1 ].highCard ) &&

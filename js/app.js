@@ -2,13 +2,16 @@
  * @author Adam Harpur
  * @date   08/2017
  * @license cc-by-sa
- * @contact adam@adamharpur.comz
+ * @contact adam@adamharpur.com
  */
 /***************************************************
               See README.md for details
 ****************************************************/
 var hands = [];
 var roundData = [];
+var player1WinCount = 0;
+var player2WinCount = 0;
+var split_pot = 0;
 
 /***************************************************
                    Main Function Calls
@@ -61,7 +64,7 @@ function processData( csv ) {
 
 function errorHandler( evt ) {
   if ( evt.target.error.name == "NotReadableError" ) {
-    alert( "Cannot read file !" );
+    alert( "Cannot read file!" );
   }
 }
 
@@ -116,65 +119,65 @@ function drawOutput( lines ) {
                    Output Winners
 ****************************************************/
 function outputWinners( roundData ) {
-  var player1 = 0;
-  var player2 = 0;
-  var split_pot = 0;
+
+
   roundData.forEach( function ( player, pos ) {
-    if ( player[ 0 ].rank < player[ 1 ].rank ) {
-      player1 += 1;
-      displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}`, pos );
-    } else if ( ( player[ 0 ].rank === player[ 1 ].rank ) && ( player[ 0 ].rank !== 2 ||
-        player[ 0 ].rank !== 6 ||
-        player[ 0 ].rank !== 6 ) && ( player[ 1 ].rank !== 2 ||
-        player[ 1 ].rank !== 5 ||
-        player[ 1 ].rank !== 6 ) ) {
-      // looking for matching ranks and matches i.e pair, three o' kind, two pair, four o' kind, fullhouse
-      if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] < player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
-        // looks for higher match
-        player1 += 1;
-        displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high match of ${player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] }`, pos );
-      } else if ( player[ 0 ].pairMatches[ player[ 0 ].pairMatches.length - 1 ] === player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] ) {
-        // pairs are equal look at high card
-        if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
-          player1 += 1;
-          displayResult( `player 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
-        } else if ( ( player[ 0 ].highCard === player[ 1 ].highCard ) &&
-          ( player[ 0 ].rank === player[ 1 ].rank ) ) {
-          split_pot += 1;
-          displayResult( "Split pot", pos );
-        } else {
-          player2 += 1;
-          displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high card of ${player[1].highCard}`, pos );
-        }
+
+    var p1 = player[ 0 ];
+    var p2 = player[ 1 ];
+
+    if ( p1.rank < p2.rank ) {
+      player1WinCount += 1;
+      displayResult( `player 1 wins with a ${ranks[ p1.rank ]}`, pos );
+    } // player 1 has a better hand
+    else if ( p1.rank === p2.rank ) {
+      if ( p1.rank === 2 || p1.rank === 5 || p1.rank === 6 ) {
+        getHighCard( p1, p2, pos ); // check high card if both hands a flush, straight or straight flush
       } else {
-        player2 += 1;
-        displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}, high match of ${player[ 1 ].pairMatches[ player[ 1 ].pairMatches.length - 1 ] }`, pos );
+        getHighMatch( p1, p2, pos )
       }
-    } else if ( player[ 0 ].rank === player[ 1 ].rank && ( player[ 0 ] === 2 ||
-        player[ 0 ] === 5 ||
-        player[ 0 ] === 6 ) && ( player[ 1 ] === 2 ||
-        player[ 1 ] === 5 ||
-        player[ 1 ] === 6 ) ) {
-      // looking for hands that are the same and non matches i.e flushes, straights and straight flushes
-      if ( player[ 0 ].highCard > player[ 1 ].highCard ) {
-        player1 += 1;
-        displayResult( `players 1 wins with a ${ranks[ player[ 0 ].rank ]}, high card of ${player[0].highCard}`, pos );
-      } else if ( player[ 0 ].highCard === player[ 1 ].highCard ) {
-        split_pot += 1;
-        displayResult( "Split pot", pos );
-      } else {
-        player2 += 1;
-        displayResult( `players 2 wins with a ${ranks[ player[ 1 ].rank ]} and high card of ${player[1].highCard}`, pos );
-      }
-    } else {
-      player2 += 1;
-      displayResult( `player 2 wins with a ${ranks[ player[ 1 ].rank ]}`, pos );
-    }
-    document.getElementById( "player-1" ).innerHTML = "Player 1 wins: " + player1 + "<br>";
-    document.getElementById( "player-2" ).innerHTML = "Player 2 wins: " + player2 + "<br>";
+    } // matching hands
+    else if ( p1.rank > p2.rank ) {
+      player2WinCount += 1;
+      displayResult( `player 2 wins with a ${ranks[ p2.rank ]}`, pos );
+    } // player 2 has a higher hand
+    document.getElementById( "player-1" ).innerHTML = "Player 1 wins: " + player1WinCount + "<br>";
+    document.getElementById( "player-2" ).innerHTML = "Player 2 wins: " + player2WinCount + "<br>";
     document.getElementById( "split-pot" ).innerHTML = "Split pots: " + split_pot + "<br>";
   } );
+}
 
+function getHighCard( p1, p2, pos ) {
+
+  p1.highCard = parseInt( p1.highCard ); // string to int
+  p2.highCard = parseInt( p2.highCard );
+
+  if ( p1.highCard > p2.highCard ) {
+    player1WinCount += 1;
+    displayResult( `player 1 wins with a ${ranks[ p1.rank ]} and a high card of ${p1.highCard}`, pos );
+  } else if ( p1.highCard === p2.highCard ) {
+    split_pot += 1;
+    displayResult( `split pot`, pos );
+  } else if ( p1.highCard < p2.highCard ) {
+    player2WinCount += 1;
+    displayResult( `player 2 wins with a ${ranks[ p2.rank ]} and a high card of ${p2.highCard}`, pos );
+  }
+}
+
+function getHighMatch( p1, p2, pos, fn ) {
+
+  p1.highMatch = parseInt( p1.pairMatches[ p1.pairMatches.length - 1 ] );
+  p2.highMatch = parseInt( p2.pairMatches[ p2.pairMatches.length - 1 ] );
+
+  if ( p1.highMatch > p2.highMatch ) {
+    player1WinCount += 1;
+    displayResult( `player 1 wins with a ${ranks[ p1.rank ]} and a high match of ${p1.highMatch}`, pos );
+  } else if ( p1.highMatch === p2.highMatch ) {
+    getHighCard( p1, p2, pos ) //check high card
+  } else if ( p1.highMatch < p2.highMatch ) {
+    player2WinCount += 1;
+    displayResult( `player 2 wins with a ${ranks[ p2.rank ]} and a high match of ${p2.highMatch}`, pos );
+  }
 
 }
 
@@ -190,14 +193,17 @@ function displayResult( text, pos ) {
 }
 
 function clearData() {
+  // reset counters
+  player1WinCount = 0;
+  player2WinCount = 0;
+  split_pot = 0;
   var ul = document.getElementById( 'resultList' );
   var output = document.getElementById( 'output' );
-  var player1 = document.getElementById( 'player-1' );
-  var player2 = document.getElementById( 'player-2' );
+  var player1WinCount = document.getElementById( 'player-1' );
+  var player2WinCount = document.getElementById( 'player-2' );
   var split_pot = document.getElementById( 'split-pot' );
   roundData = [];
-  var elements = [ ul, output, player1, player2, split_pot ];
-
+  var elements = [ ul, output, player1WinCount, player2WinCount, split_pot ];
   elements.forEach( function ( el ) {
     el.innerHTML = "";
   } );

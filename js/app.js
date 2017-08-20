@@ -120,6 +120,10 @@ function drawOutput( lines ) {
 ****************************************************/
 function outputWinners( roundData ) {
 
+  // reset counters
+  player1WinCount = 0;
+  player2WinCount = 0;
+  split_pot = 0;
 
   roundData.forEach( function ( player, pos ) {
 
@@ -151,6 +155,14 @@ function getHighCard( p1, p2, pos ) {
 
   p1.highCard = parseInt( p1.highCard ); // string to int
   p2.highCard = parseInt( p2.highCard );
+
+  if ( p1.rank === 6 ) {
+    if ( p1.highCard === 14 ) {
+      p1.highCard = 1;
+    } else if ( p2.highCard === 14 ) {
+      p2.highCard = 1;
+    }
+  } // deals with Ace's wheeling behaviour i.e straight : A 2 3 4 5
 
   if ( p1.highCard > p2.highCard ) {
     player1WinCount += 1;
@@ -193,10 +205,6 @@ function displayResult( text, pos ) {
 }
 
 function clearData() {
-  // reset counters
-  player1WinCount = 0;
-  player2WinCount = 0;
-  split_pot = 0;
   var ul = document.getElementById( 'resultList' );
   var output = document.getElementById( 'output' );
   var player1WinCount = document.getElementById( 'player-1' );
